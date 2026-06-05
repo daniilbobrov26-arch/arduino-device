@@ -11,6 +11,10 @@ const char* WIFI_PASSWORD = "123456789";
 const char* MQTT_HOST = "185.200.241.15";
 const int MQTT_PORT = 1883;
 
+// логин и пароль для MQTT
+const char* MQTT_USER = "daniil";
+const char* MQTT_PASSWORD = "02wqNQt";
+
 const char* MQTT_CLIENT_ID = "esp8266-client";
 const char* MQTT_COMMAND_TOPIC = "iot/devices/commands";
 const char* MQTT_STATUS_TOPIC = "iot/devices/status";
@@ -29,7 +33,7 @@ WiFiClient espClient;
 PubSubClient mqtt(espClient);
 
 bool relay1State = false;
-bool relay2State = falseф;
+bool relay2State = false;
 
 void writeRelay(int pin, bool state) {
   if (RELAY_ACTIVE_LOW) {
@@ -175,18 +179,19 @@ void connectWiFi() {
 void reconnectMqtt() {
   while (!mqtt.connected()) {
     Serial.print("Connecting to MQTT... ");
-
-    if (mqtt.connect(MQTT_CLIENT_ID)) {
+    
+    // Используем connect с логином и паролем
+    if (mqtt.connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASSWORD)) {
       Serial.println("connected");
-
+      
       mqtt.subscribe(MQTT_COMMAND_TOPIC);
-
+      
       publishStatus(RELAY_1_UUID, relay1State);
       publishStatus(RELAY_2_UUID, relay2State);
     } else {
       Serial.print("failed, rc=");
       Serial.println(mqtt.state());
-
+      
       delay(5000);
     }
   }
