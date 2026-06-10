@@ -11,8 +11,8 @@ const char* WIFI_PASSWORD = "password";
 const char* MQTT_HOST = "185.200.241.15";
 const int MQTT_PORT = 1883;
 
-const char* MQTT_USER = "name";
-const char* MQTT_PASSWORD = "password";
+const char* MQTT_USER = "daniil";
+const char* MQTT_PASSWORD = "02wqNQt";
 
 const char* MQTT_CLIENT_ID = "esp8266-client";
 const char* MQTT_COMMAND_TOPIC = "iot/devices/commands";
@@ -36,9 +36,9 @@ bool relay2State = false;
 
 void writeRelay(int pin, bool state) {
   if (RELAY_ACTIVE_LOW) {
-    digitalWrite(pin, state ? HIGH : LOW);
-  } else {
     digitalWrite(pin, state ? LOW : HIGH);
+  } else {
+    digitalWrite(pin, state ? HIGH : LOW);
   }
 }
 
